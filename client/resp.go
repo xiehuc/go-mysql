@@ -6,6 +6,7 @@ import (
 	"crypto/x509"
 	"encoding/binary"
 	"encoding/pem"
+	"fmt"
 
 	"github.com/pingcap/errors"
 	. "github.com/siddontang/go-mysql/mysql"
@@ -60,15 +61,21 @@ func (c *Conn) handleOKPacket(data []byte) (*Result, error) {
 		pos += 2
 	}
 
+	fmt.Printf("%q", data[pos:])
+
 	if c.capability&CLIENT_SESSION_TRACK > 0 {
 		info, _, n, _ := LengthEncodedString(data[pos:])
-		c.info = string(info)
+		if len(info) > 0 {
+			c.info = string(info)
+		}
 		pos += n
 		if r.Status&SERVER_SESSION_STATE_CHANGED > 0 {
 			// skip session_state_changes
 		}
 	} else {
-		c.info = string(data[pos:])
+		if len(data[pos:]) > 0 {
+			c.info = string(data[pos:])
+		}
 	}
 
 	return r, nil
