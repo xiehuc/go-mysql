@@ -53,7 +53,7 @@ func (c *Conn) handleOKPacket(data []byte) (*Result, error) {
 
 		//todo:strict_mode, check warnings as error
 		//Warnings := binary.LittleEndian.Uint16(data[pos:])
-		//pos += 2
+		pos += 2
 	} else if c.capability&CLIENT_TRANSACTIONS > 0 {
 		r.Status = binary.LittleEndian.Uint16(data[pos:])
 		c.status = r.Status
