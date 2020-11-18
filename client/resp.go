@@ -61,7 +61,7 @@ func (c *Conn) handleOKPacket(data []byte) (*Result, error) {
 		pos += 2
 	}
 
-	fmt.Printf("%q", data[pos:])
+	fmt.Printf("\n%q %x\n", data[pos:], data[pos:])
 
 	if c.capability&CLIENT_SESSION_TRACK > 0 {
 		info, _, n, _ := LengthEncodedString(data[pos:])
