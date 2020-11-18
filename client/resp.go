@@ -60,9 +60,17 @@ func (c *Conn) handleOKPacket(data []byte) (*Result, error) {
 		pos += 2
 	}
 
-	//new ok package will check CLIENT_SESSION_TRACK too, but I don't support it now.
+	if c.capability&CLIENT_SESSION_TRACK > 0 {
+		info, _, n, _ := LengthEncodedString(data[pos:])
+		r.Info = string(info)
+		pos += n
+		if r.Status&SERVER_SESSION_STATE_CHANGED > 0 {
+			// skip session_state_changes
+		}
+	} else {
+		r.Info = string(data[pos:])
+	}
 
-	//skip info
 	return r, nil
 }
 
