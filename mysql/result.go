@@ -5,7 +5,6 @@ type Result struct {
 
 	InsertId     uint64
 	AffectedRows uint64
-	Info         string
 
 	*Resultset
 }

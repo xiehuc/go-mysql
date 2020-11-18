@@ -31,6 +31,8 @@ type Conn struct {
 	authPluginName string
 
 	connectionID uint32
+
+	info string
 }
 
 func getNetProto(addr string) string {
@@ -271,4 +273,8 @@ func (c *Conn) exec(query string) (*Result, error) {
 	}
 
 	return c.readResult(false)
+}
+
+func (c *Conn) Info() string {
+	return c.info
 }
