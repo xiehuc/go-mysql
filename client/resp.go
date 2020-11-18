@@ -62,13 +62,13 @@ func (c *Conn) handleOKPacket(data []byte) (*Result, error) {
 
 	if c.capability&CLIENT_SESSION_TRACK > 0 {
 		info, _, n, _ := LengthEncodedString(data[pos:])
-		c.Info = string(info)
+		c.info = string(info)
 		pos += n
 		if r.Status&SERVER_SESSION_STATE_CHANGED > 0 {
 			// skip session_state_changes
 		}
 	} else {
-		c.Info = string(data[pos:])
+		c.info = string(data[pos:])
 	}
 
 	return r, nil
